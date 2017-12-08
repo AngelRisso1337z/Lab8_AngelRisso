@@ -65,16 +65,28 @@ public class Lab1_AngelRisso {
                 System.out.println("1)Movimiento vertical, 2) movimiento horizontal");
                 movimiento = sc.nextInt();
                 if (movimiento == 1) {
-                    System.out.println("ingrese su coordenada en Y: ");
-                    vert = sc.nextInt();
-                    if (!tabla[vert][coord2].equals("[ ]")) {
-                        while (!tabla[vert][coord2].equals("[ ]")) {
-                            System.out.println("esta otra pieza ahi, ingrese otra coordenada");
-                            vert = sc.nextInt();
+                    try {
+                        
+                        System.out.println("ingrese su coordenada en Y: , si desea pasar su turno, ingrese -1");
+                        vert = sc.nextInt();
+                        if (vert < 0) {
+                            System.out.println("pasando su turno, va el otro jugador");
+                            turn = false;
                         }
+                        if (!tabla[vert][coord2].equals("[ ]")) {
+                            while (!tabla[vert][coord2].equals("[ ]")) {
+                                System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                vert = sc.nextInt();
+                            }
+                        } else {
+                            tabla[vert][coord2] = " X ";
+                            tabla[coord1][coord2] = "[ ]";
+                        }
+                    }catch(InputMismatchException e){
+                        System.out.println("error en el input");
+                    } catch (Exception e) {
+                        
                     }
-                    tabla[vert][coord2] = " X ";
-                    tabla[coord1][coord2] = "[ ]";
                 } else if (movimiento == 2) {
                     try {
 
@@ -188,7 +200,7 @@ public class Lab1_AngelRisso {
                         System.out.println("Coordenadas no validas, ingrese de nuevo: ");
 
                     }
-                    while (!tabla[coord1][coord2].equals(" 0 ")) {
+                    while (!tabla[coord2][coord1].equals(" 0 ")) {
                         System.out.println("pieza no valida, ingrese de nuevo");
                         coord1 = sc.nextInt();
                         coord2 = sc.nextInt();
@@ -197,7 +209,7 @@ public class Lab1_AngelRisso {
                     System.out.println("1) movimiento vertical, 2) movimiento Horizontal");
                     movimiento = sc.nextInt();
                     if (movimiento == 1) {
-                        System.out.println("ingrese su coordenada en Y: ");
+                        System.out.println("ingrese su coordenada en Y: ,");
                         vert = sc.nextInt();
                         if (!tabla[vert][coord2].equals("[ ]")) {
                             while (!tabla[vert][coord2].equals("[ ]")) {
@@ -206,7 +218,7 @@ public class Lab1_AngelRisso {
                             }
                         }
                         tabla[vert][coord2] = " 0 ";
-                        tabla[coord1][coord2] = "[ ]";
+                        tabla[coord2][coord1] = "[ ]";
                     } else if (movimiento == 2) {
                         System.out.println("ingrese su coordenada en X: ");
                         hori = sc.nextInt();
@@ -217,7 +229,7 @@ public class Lab1_AngelRisso {
                             }
                         }
                         tabla[coord1][hori] = " 0 ";
-                        tabla[coord1][coord2] = "[ ]";
+                        tabla[coord2][coord1] = "[ ]";
                     } else {
                         System.out.println("movimento no valido, termina turno");
                     }
