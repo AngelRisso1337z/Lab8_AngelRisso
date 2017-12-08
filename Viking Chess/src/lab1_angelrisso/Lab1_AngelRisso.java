@@ -23,7 +23,11 @@ public class Lab1_AngelRisso {
             {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", " 0 ", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
             {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", " X ", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
             {"[ ]", "[ ]", "[ ]", " X ", " X ", " X ", " X ", " X ", "[ ]", "[ ]", "[ ]"}};
-        juego(tablero);
+        try {
+            juego(tablero);
+        } catch (Exception e) {
+        }
+        
 
     }
 
@@ -41,6 +45,7 @@ public class Lab1_AngelRisso {
     }
 
     public static void juego(String[][] tabla) {
+        
         boolean turn = true;
         int coord1 = 0, coord2 = 0, movimiento, vert = 0, hori = 0, m_rey, ban = 0, ganar = 0;
         while (ganar == 0) {
@@ -65,9 +70,13 @@ public class Lab1_AngelRisso {
                     System.out.println("Coordenadas no validas, ingrese de nuevo: ");
                 }
                 while (!tabla[coord2][coord1].equals(" X ")) {
-                    System.out.println("pieza no valida, ingrese de nuevo");
-                    coord1 = sc.nextInt();
-                    coord2 = sc.nextInt();
+                    try {
+                        System.out.println("pieza no valida, ingrese de nuevo");
+                        coord1 = sc.nextInt();
+                        coord2 = sc.nextInt();
+                    } catch (Exception e) {
+                    }
+                    
                 }
                 System.out.println("1)Movimiento vertical, 2) movimiento horizontal");
                 movimiento = sc.nextInt();
@@ -83,8 +92,12 @@ public class Lab1_AngelRisso {
                             }
                             if (!tabla[vert][coord1].equals("[ ]")) {
                                 while (!tabla[vert][coord1].equals("[ ]")) {
-                                    System.out.println("esta otra pieza ahi, ingrese otra coordenada");
-                                    vert = sc.nextInt();
+                                    try {
+                                        System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                        vert = sc.nextInt();
+                                    } catch (Exception e) {
+                                    }
+                                    
                                 }
                             } else {
                                 int dir = 0;
@@ -102,8 +115,12 @@ public class Lab1_AngelRisso {
                                     }
                                 }
                                 if (ban == 0) {
-                                    tabla[vert][coord1] = " X ";
-                                    tabla[coord2][coord1] = "[ ]";
+                                    try {
+                                        tabla[vert][coord1] = " X ";
+                                        tabla[coord2][coord1] = "[ ]";
+                                    } catch (Exception e) {
+                                    }
+                                    
                                 } else {
                                     System.out.println("hay algo bloqueando la pasada, intente de nuevo");
 
@@ -120,8 +137,12 @@ public class Lab1_AngelRisso {
                     try {
                         do {
                             ban = 0;
-                            System.out.println("ingrese su coordenada en X: , si desea no mover esta pieza, ingrese -1 para terminar su turno");
-                            hori = sc.nextInt();
+                            try {
+                                System.out.println("ingrese su coordenada en X: , si desea no mover esta pieza, ingrese -1 para terminar su turno");
+                                hori = sc.nextInt();
+                            } catch (Exception e) {
+                            }
+                            
                             if (hori < 0) {
                                 System.out.println("pasando turno al otro jugador");
                                 turn = false;
@@ -129,8 +150,12 @@ public class Lab1_AngelRisso {
                             }
                             if (!tabla[coord2][hori].equals("[ ]")) {
                                 while (!tabla[coord2][hori].equals("[ ]")) {
-                                    System.out.println("esta otra pieza ahi, ingrese otra coordenada");
-                                    hori = sc.nextInt();
+                                    try {
+                                        System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                        hori = sc.nextInt();
+                                    } catch (Exception e) {
+                                    }
+                                    ;
                                 }
                             } else {
 
