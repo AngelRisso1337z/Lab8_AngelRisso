@@ -88,12 +88,12 @@ public class Lab1_AngelRisso {
                                 }
                             } else {
                                 int dir = 0;
-                                if (vert-coord1 <0) {
+                                if (vert - coord1 < 0) {
                                     dir = -1;
                                 } else {
                                     dir = 1;
                                 }
-                                for (int i = coord1; i != vert; i+=dir) {
+                                for (int i = coord1; i < vert; i++) {
                                     if (!tabla[i][coord1].equals("[ ]")) {
                                         ban = 1;
                                         if (ban == 1) {
@@ -106,7 +106,7 @@ public class Lab1_AngelRisso {
                                     tabla[coord2][coord1] = "[ ]";
                                 } else {
                                     System.out.println("hay algo bloqueando la pasada, intente de nuevo");
-                                    
+
                                 }
                             }
                         } while (ban == 1);
@@ -133,14 +133,14 @@ public class Lab1_AngelRisso {
                                     hori = sc.nextInt();
                                 }
                             } else {
-                                
+
                                 int dir = 0;
-                                if (hori-coord2 <0) {
+                                if (hori - coord2 < 0) {
                                     dir = -1;
                                 } else {
                                     dir = 1;
                                 }
-                                for (int i = coord2; i != hori; i+=dir) {
+                                for (int i = coord2; i != hori; i += dir) {
                                     if (!tabla[coord2][i].equals("[ ]")) {
                                         ban = 1;
                                         if (ban == 1) {
@@ -154,7 +154,7 @@ public class Lab1_AngelRisso {
                                     tabla[coord2][coord1] = "[ ]";
                                 } else {
                                     System.out.println("hay algo bloqueando la pasada, intente de nuevo");
-                                    ban=0;
+                                    ban = 0;
                                 }
                             }
                         } while (ban == 1);
@@ -185,10 +185,12 @@ public class Lab1_AngelRisso {
                                 if (tabla[i + 3][j].equals(" X ") && tabla[i - 3][j].equals(" X ") && tabla[i + 2][j].equals(" 0 ")) {
                                     tabla[i][j] = "[ ]";
                                     tabla[i + 1][j] = "[ ]";
+                                    tabla[i + 2][j] = "[ ]";
                                 }
                                 if (tabla[i][j + 3].equals(" X ") && tabla[i][j - 3].equals(" X ") && tabla[i][j + 2].equals(" 0 ")) {
                                     tabla[i][j] = "[ ]";
                                     tabla[i][j + 1] = "[ ]";
+                                    tabla[i][j + 2] = "[ ]";
 
                                 }
 
@@ -312,7 +314,7 @@ public class Lab1_AngelRisso {
                                         tabla[coord2][coord1] = "[ ]";
                                     } else {
                                         System.out.println("hay algo bloqueando la pasada, intente de nuevo");
-                                        ban=0;
+                                        ban = 0;
                                     }
                                 }
                             } while (ban == 1);
@@ -339,7 +341,7 @@ public class Lab1_AngelRisso {
                                         hori = sc.nextInt();
                                     }
                                 } else {
-                                    
+
                                     for (int i = coord2; i < hori; i++) {
                                         if (!tabla[coord2][i].equals("[ ]")) {
                                             ban = 1;
@@ -371,6 +373,26 @@ public class Lab1_AngelRisso {
                                         || tabla[i + 1][j].equals(" K ") && tabla[i - 1][j].equals(" 0 ") || tabla[i][j + 1].equals(" K ") && tabla[i][j - 1].equals(" 0 ")
                                         || tabla[i + 1][j].equals(" 0 ") && tabla[i - 1][j].equals(" K ") || tabla[i][j + 1].equals(" 0 ") && tabla[i][j - 1].equals(" K ")) {
                                     tabla[i][j] = "[ ]";
+                                }
+                                if (tabla[i + 2][j].equals(" 0 ") && tabla[i - 2][j].equals(" 0 ") && tabla[i + 1][j].equals(" X ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i + 1][j] = "[ ]";
+                                }
+                                if (tabla[i][j + 2].equals(" 0 ") && tabla[i][j - 2].equals(" 0 ") && tabla[i][j + 1].equals(" X ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i][j + 1] = "[ ]";
+                                }
+
+                                if (tabla[i + 3][j].equals(" 0 ") && tabla[i - 3][j].equals(" 0 ") && tabla[i + 2][j].equals(" X ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i + 1][j] = "[ ]";
+                                    tabla[i + 2][j] = "[ ]";
+                                }
+                                if (tabla[i][j + 3].equals(" 0 ") && tabla[i][j - 3].equals(" 0 ") && tabla[i][j + 2].equals(" X ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i][j + 1] = "[ ]";
+                                    tabla[i][j + 2] = "[ ]";
+
                                 }
                             }
                         }
