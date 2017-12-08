@@ -42,20 +42,27 @@ public class Lab1_AngelRisso {
 
     public static void juego(String[][] tabla) {
         boolean turn = true;
-        int coord1, coord2, movimiento, vert = 0, hori = 0, m_rey, ban, ganar = 0;
+        int coord1 = 0, coord2 = 0, movimiento, vert = 0, hori = 0, m_rey, ban = 0, ganar = 0;
         while (ganar == 0) {
             turnos++;
             System.out.println("Turno numero:" + turnos);
             if (turn == true) {
                 System.out.println("turno del atacante");
                 imp(tabla, 0, 0);
+
                 System.out.println();
                 System.out.println("ingrese coordenada en x y en y para seleccionar su pieza: ");
-                coord1 = sc.nextInt();
-                coord2 = sc.nextInt();
+                try {
+                    coord1 = sc.nextInt();
+                    coord2 = sc.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("error en el input");
+                } catch (Exception e) {
+
+                }
+
                 while (coord1 > tabla.length - 1 || coord2 > tabla.length - 1) {
                     System.out.println("Coordenadas no validas, ingrese de nuevo: ");
-
                 }
                 while (!tabla[coord2][coord1].equals(" X ")) {
                     System.out.println("pieza no valida, ingrese de nuevo");
@@ -66,46 +73,91 @@ public class Lab1_AngelRisso {
                 movimiento = sc.nextInt();
                 if (movimiento == 1) {
                     try {
-                        
-                        System.out.println("ingrese su coordenada en Y: , si desea pasar su turno, ingrese -1");
-                        vert = sc.nextInt();
-                        if (vert < 0) {
-                            System.out.println("pasando su turno, va el otro jugador");
-                            turn = false;
-                        }
-                        if (!tabla[vert][coord2].equals("[ ]")) {
-                            while (!tabla[vert][coord2].equals("[ ]")) {
-                                System.out.println("esta otra pieza ahi, ingrese otra coordenada");
-                                vert = sc.nextInt();
+                        do {
+                            ban = 0;
+                            System.out.println("ingrese su coordenada en Y: , si desea pasar su turno, ingrese -1");
+                            vert = sc.nextInt();
+                            if (vert < 0) {
+                                System.out.println("pasando su turno, va el otro jugador");
+                                turn = false;
                             }
-                        } else {
-                            tabla[vert][coord2] = " X ";
-                            tabla[coord1][coord2] = "[ ]";
-                        }
-                    }catch(InputMismatchException e){
+                            if (!tabla[vert][coord1].equals("[ ]")) {
+                                while (!tabla[vert][coord1].equals("[ ]")) {
+                                    System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                    vert = sc.nextInt();
+                                }
+                            } else {
+                                int dir = 0;
+                                if (vert-coord1 <0) {
+                                    dir = -1;
+                                } else {
+                                    dir = 1;
+                                }
+                                for (int i = coord1; i != vert; i+=dir) {
+                                    if (!tabla[i][coord1].equals("[ ]")) {
+                                        ban = 1;
+                                        if (ban == 1) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (ban == 0) {
+                                    tabla[vert][coord1] = " X ";
+                                    tabla[coord2][coord1] = "[ ]";
+                                } else {
+                                    System.out.println("hay algo bloqueando la pasada, intente de nuevo");
+                                    
+                                }
+                            }
+                        } while (ban == 1);
+
+                    } catch (InputMismatchException e) {
                         System.out.println("error en el input");
                     } catch (Exception e) {
-                        
+
                     }
                 } else if (movimiento == 2) {
                     try {
-
-                        System.out.println("ingrese su coordenada en X: , si desea no mover esta pieza, ingrese -1 para terminar su turno");
-                        hori = sc.nextInt();
-                        if (hori < 0) {
-                            System.out.println("pasando turno al otro jugador");
-                            turn = false;
-                        }
-                        if (!tabla[coord1][hori].equals("[ ]")) {
-                            while (!tabla[coord1][hori].equals("[ ]")) {
-                                System.out.println("esta otra pieza ahi, ingrese otra coordenada");
-                                hori = sc.nextInt();
+                        do {
+                            ban = 0;
+                            System.out.println("ingrese su coordenada en X: , si desea no mover esta pieza, ingrese -1 para terminar su turno");
+                            hori = sc.nextInt();
+                            if (hori < 0) {
+                                System.out.println("pasando turno al otro jugador");
+                                turn = false;
+                                ban = 0;
                             }
-                        } else {
-                            tabla[coord1][hori] = " X ";
-                            tabla[coord1][coord2] = "[ ]";
-                        }
+                            if (!tabla[coord2][hori].equals("[ ]")) {
+                                while (!tabla[coord2][hori].equals("[ ]")) {
+                                    System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                    hori = sc.nextInt();
+                                }
+                            } else {
+                                
+                                int dir = 0;
+                                if (hori-coord2 <0) {
+                                    dir = -1;
+                                } else {
+                                    dir = 1;
+                                }
+                                for (int i = coord2; i != hori; i+=dir) {
+                                    if (!tabla[coord2][i].equals("[ ]")) {
+                                        ban = 1;
+                                        if (ban == 1) {
+                                            break;
+                                        }
+                                    }
+                                }
 
+                                if (ban == 0) {
+                                    tabla[coord2][hori] = " X ";
+                                    tabla[coord2][coord1] = "[ ]";
+                                } else {
+                                    System.out.println("hay algo bloqueando la pasada, intente de nuevo");
+                                    ban=0;
+                                }
+                            }
+                        } while (ban == 1);
                     } catch (InputMismatchException e) {
                         System.out.println("occurio un error en el input");
                     } catch (Exception e) {
@@ -114,15 +166,38 @@ public class Lab1_AngelRisso {
                 } else {
                     System.out.println("movimento no valido, termina turno");
                 }
-                for (int i = 1; i < tabla.length - 1; i++) {
-                    for (int j = 1; j < tabla[0].length - 1; j++) {
-                        if (tabla[i][j].equals(" 0 ")) {
-                            if (tabla[i + 1][j].equals(" X ") && tabla[i - 1][j].equals(" X ") || tabla[i][j + 1].equals(" X ") && tabla[i][j - 1].equals(" X ")) {
-                                tabla[i][j] = "[ ]";
+                try {
+                    for (int i = 1; i < tabla.length - 1; i++) {
+                        for (int j = 1; j < tabla[0].length - 1; j++) {
+                            if (tabla[i][j].equals(" 0 ")) {
+                                if (tabla[i + 1][j].equals(" X ") && tabla[i - 1][j].equals(" X ") || tabla[i][j + 1].equals(" X ") && tabla[i][j - 1].equals(" X ")) {
+                                    tabla[i][j] = "[ ]";
+                                }
+                                if (tabla[i + 2][j].equals(" X ") && tabla[i - 2][j].equals(" X ") && tabla[i + 1][j].equals(" 0 ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i + 1][j] = "[ ]";
+                                }
+                                if (tabla[i][j + 2].equals(" X ") && tabla[i][j - 2].equals(" X ") && tabla[i][j + 1].equals(" 0 ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i][j + 1] = "[ ]";
+                                }
+
+                                if (tabla[i + 3][j].equals(" X ") && tabla[i - 3][j].equals(" X ") && tabla[i + 2][j].equals(" 0 ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i + 1][j] = "[ ]";
+                                }
+                                if (tabla[i][j + 3].equals(" X ") && tabla[i][j - 3].equals(" X ") && tabla[i][j + 2].equals(" 0 ")) {
+                                    tabla[i][j] = "[ ]";
+                                    tabla[i][j + 1] = "[ ]";
+
+                                }
+
                             }
                         }
                     }
+                } catch (Exception e) {
                 }
+
                 for (int i = 1; i < tabla.length - 1; i++) {
                     for (int j = 1; j < tabla[0].length - 1; j++) {
                         if (tabla[i][j].equals(" K ")) {
@@ -134,6 +209,7 @@ public class Lab1_AngelRisso {
                     }
                 }
                 turn = false;
+                ban = 0;
             } else {
 
                 System.out.println("turno del defensor");
@@ -193,7 +269,7 @@ public class Lab1_AngelRisso {
                         break;
                     }
                 } else {
-                    System.out.println("ingrese coordenada en Y y en X para seleccionar su pieza: ");
+                    System.out.println("ingrese coordenada en x y en y para seleccionar su pieza: ");
                     coord1 = sc.nextInt();
                     coord2 = sc.nextInt();
                     while (coord1 > tabla.length - 1 || coord2 > tabla.length - 1) {
@@ -205,31 +281,86 @@ public class Lab1_AngelRisso {
                         coord1 = sc.nextInt();
                         coord2 = sc.nextInt();
                     }
-
-                    System.out.println("1) movimiento vertical, 2) movimiento Horizontal");
+                    System.out.println("1)Movimiento vertical, 2) movimiento horizontal");
                     movimiento = sc.nextInt();
                     if (movimiento == 1) {
-                        System.out.println("ingrese su coordenada en Y: ,");
-                        vert = sc.nextInt();
-                        if (!tabla[vert][coord2].equals("[ ]")) {
-                            while (!tabla[vert][coord2].equals("[ ]")) {
-                                System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                        try {
+                            do {
+                                ban = 0;
+                                System.out.println("ingrese su coordenada en Y: , si desea pasar su turno, ingrese -1");
                                 vert = sc.nextInt();
-                            }
+                                if (vert < 0) {
+                                    System.out.println("pasando su turno, va el otro jugador");
+                                    turn = false;
+                                }
+                                if (!tabla[vert][coord1].equals("[ ]")) {
+                                    while (!tabla[vert][coord1].equals("[ ]")) {
+                                        System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                        vert = sc.nextInt();
+                                    }
+                                } else {
+                                    for (int i = coord1; i < vert; i++) {
+                                        if (!tabla[i][coord1].equals("[ ]")) {
+                                            ban = 1;
+                                            if (ban == 1) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (ban == 0) {
+                                        tabla[vert][coord1] = " 0 ";
+                                        tabla[coord2][coord1] = "[ ]";
+                                    } else {
+                                        System.out.println("hay algo bloqueando la pasada, intente de nuevo");
+                                        ban=0;
+                                    }
+                                }
+                            } while (ban == 1);
+
+                        } catch (InputMismatchException e) {
+                            System.out.println("error en el input");
+                        } catch (Exception e) {
+
                         }
-                        tabla[vert][coord2] = " 0 ";
-                        tabla[coord2][coord1] = "[ ]";
                     } else if (movimiento == 2) {
-                        System.out.println("ingrese su coordenada en X: ");
-                        hori = sc.nextInt();
-                        if (!tabla[coord1][hori].equals("[ ]")) {
-                            while (!tabla[coord1][hori].equals("[ ]")) {
-                                System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                        try {
+                            do {
+                                ban = 0;
+                                System.out.println("ingrese su coordenada en X: , si desea no mover esta pieza, ingrese -1 para terminar su turno");
                                 hori = sc.nextInt();
-                            }
+                                if (hori < 0) {
+                                    System.out.println("pasando turno al otro jugador");
+                                    turn = false;
+                                    ban = 0;
+                                }
+                                if (!tabla[coord2][hori].equals("[ ]")) {
+                                    while (!tabla[coord2][hori].equals("[ ]")) {
+                                        System.out.println("esta otra pieza ahi, ingrese otra coordenada");
+                                        hori = sc.nextInt();
+                                    }
+                                } else {
+                                    
+                                    for (int i = coord2; i < hori; i++) {
+                                        if (!tabla[coord2][i].equals("[ ]")) {
+                                            ban = 1;
+                                            if (ban == 1) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (ban == 0) {
+                                        tabla[coord2][hori] = " 0 ";
+                                        tabla[coord2][coord1] = "[ ]";
+                                    } else {
+                                        System.out.println("hay algo bloqueando la pasada, intente de nuevo");
+                                    }
+                                }
+                            } while (ban == 1);
+                        } catch (InputMismatchException e) {
+                            System.out.println("occurio un error en el input");
+                        } catch (Exception e) {
                         }
-                        tabla[coord1][hori] = " 0 ";
-                        tabla[coord2][coord1] = "[ ]";
+
                     } else {
                         System.out.println("movimento no valido, termina turno");
                     }
